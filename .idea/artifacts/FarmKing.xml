@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FarmKing">
+    <output-path>$PROJECT_DIR$/../Server/plugins</output-path>
+    <root id="archive" name="FarmKing.jar">
+      <element id="module-output" name="FarmKing" />
+    </root>
+  </artifact>
+</component>

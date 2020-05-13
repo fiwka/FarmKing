@@ -1,0 +1,7 @@
+name: FarmKing
+main: ru.kdev.FarmKing.Main
+version: "1.0.0"
+
+commands:
+  home:
+    description: 1
