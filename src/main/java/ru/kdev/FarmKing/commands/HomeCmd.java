@@ -3,7 +3,6 @@ package ru.kdev.FarmKing.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.kdev.FarmKing.Main;
@@ -12,15 +11,15 @@ import ru.kdev.FarmKing.farm.Farm;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 
-public class HomeCmd implements CommandExecutor {
+@ru.kdev.FarmKing.commands.Command(name="home")
+public class HomeCmd implements ICommand {
     private Main plugin;
 
     public HomeCmd(Main plugin) {
         this.plugin = plugin;
     }
 
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public void onCommand(CommandSender commandSender, Command command, String[] args) {
         Farm farm = null;
         try {
             farm = new Farm(plugin, (Player) commandSender, new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "schematics" + File.separator + "test.schematic"));
@@ -47,6 +46,5 @@ public class HomeCmd implements CommandExecutor {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return false;
     }
 }

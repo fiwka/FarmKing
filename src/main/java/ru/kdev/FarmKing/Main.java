@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.kdev.FarmKing.commands.CommandManager;
 import ru.kdev.FarmKing.commands.HomeCmd;
 import ru.kdev.FarmKing.listener.FarmListener;
 
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 public class Main extends JavaPlugin {
     private FileConfiguration farms = null;
     private File farmsFile = null;
+    private CommandManager commandManager = null;
 
     @Override
     public void onEnable() {
@@ -29,10 +31,13 @@ public class Main extends JavaPlugin {
         world.setGameRuleValue("randomTickSpeed", "100");
         world.setPVP(false);
         Bukkit.getPluginManager().registerEvents(new FarmListener(this), this);
-        this.getCommand("home").setExecutor(new HomeCmd(this));
+        commandManager = new CommandManager(this);
+        this.getCommand("home").setExecutor(commandManager);
+        commandManager.register(new HomeCmd(this));
         this.saveDefaultConfig();
         try {
-            this.reloadFarms();
+            if(!farmsFile.exists()) this.reloadFarms();
+            else this.saveFarms();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
