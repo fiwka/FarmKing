@@ -4,7 +4,10 @@ import com.boydti.fawe.FaweAPI;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.world.World;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -60,6 +63,22 @@ public class Farm {
                 plugin.getFarms().getDouble(owner.getName() + ".location.x"),
                 plugin.getFarms().getDouble(owner.getName() + ".location.y"),
                 plugin.getFarms().getDouble(owner.getName() + ".location.z"));
+    }
+
+    public void breakBlock(Block block) throws UnsupportedEncodingException {
+        if(!isInOwnFarm()) return;
+        Material blockType = block.getType();
+        if(Main.prices.containsKey(blockType) && Main.levels.containsKey(blockType))
+        {
+            Double price = Main.prices.get(blockType);
+            set("balance", getBalance() + price);
+            set("collected", getCollected() + 1);
+            owner.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + price + "$"));
+        }
+    }
+
+    public boolean isInOwnFarm() {
+        return owner.getLocation().distance(location) <= 150.0;
     }
 
     public int getLevel() throws UnsupportedEncodingException {

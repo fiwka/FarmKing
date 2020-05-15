@@ -4,4 +4,8 @@ version: "1.0.0"
 
 commands:
   home:
-    description: 1
+    description: d
+  farm:
+    description: d
+  level:
+    description: Повысить уровень
